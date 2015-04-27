@@ -1,0 +1,58 @@
+package com.example.fw;
+
+import org.openqa.selenium.By;
+
+import com.example.tests.GroupData;
+import com.example.tests.TestBase;
+
+public class GroupHelper extends HelperBase {
+
+	public GroupHelper(ApplicationManager manager) {
+		super(manager);
+	}
+
+	public void initGroupCreation() {
+		click(By.name("new"));
+	}
+
+	public void fillGroupForm(GroupData group) {
+	    type(By.name("group_name"), group.name);
+	    type(By.name("group_header"), group.header);
+	    type(By.name("group_footer"), group.footer);
+	}
+
+	public void submitGroupCreation() {
+		click(By.name("submit"));
+	}
+
+	public void deleteGroup(int index) {
+		selectGroupByIndex(index);
+		click(By.name("delete"));
+	}
+
+	private void selectGroupByIndex(int index) {
+		click(By.xpath("//input[@name='selected[]']["+ index +"]"));
+	}
+	
+	public void returnToGroupsPage() {
+		click(By.linkText("group page"));
+	}
+
+	public void initGroupModification(int index) {
+		selectGroupByIndex(index);
+		click(By.name("edit"));
+	}
+
+	public void submitGroupModification() {
+		click(By.name("update"));
+	}
+
+	public void deleteGroups(int index) {
+		// index is sum of groups to be deleted
+		for (int i = 1; i <= index; i++){
+			selectGroupByIndex(i);
+		}
+		click(By.name("delete"));
+	}
+
+}
