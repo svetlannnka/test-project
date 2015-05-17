@@ -18,10 +18,11 @@ public class ApplicationManager {
 		driver = new FirefoxDriver();
 	    baseUrl = "http://localhost/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-	    
-	    navigationHelper = new NavigationHelper(this);
+		driver.get(baseUrl + "/addressbookv4.1.4/");
+		
+	   /* navigationHelper = new NavigationHelper(this);
 	    groupHelper = new GroupHelper(this);
-	    contactHelper = new ContactHelper(this);
+	    contactHelper = new ContactHelper(this);*/
 	}
 	
 	public void stop() {
@@ -42,10 +43,11 @@ public class ApplicationManager {
 		return contactHelper;
 	}
 
-	public NavigationHelper getNavigationalHelper() {
+	public NavigationHelper navigateTo() {
 		if (navigationHelper == null) {
 			navigationHelper = new NavigationHelper(this);
 		}
 		return navigationHelper;
 	}
+
 }

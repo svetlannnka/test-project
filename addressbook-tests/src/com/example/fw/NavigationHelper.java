@@ -4,20 +4,42 @@ import org.openqa.selenium.By;
 
 public class NavigationHelper extends HelperBase {
 
-	public NavigationHelper(ApplicationManager manager){
+	public NavigationHelper(ApplicationManager manager) {
 		super(manager);
 	}
 
-	public void openMainPage() {
-		driver.get(manager.baseUrl + "/addressbookv4.1.4/");
+	public void mainPage() {
+		if(! onMainPage()) {
+			click(By.linkText("home"));
+		}
+	}
+	public void groupsPage() {
+		if (! onGroupsPage()) {
+			click(By.linkText("groups"));
+		}
 	}
 
-	public void gotoGroupsPage() {
-	   click(By.linkText("groups"));
+	public void gotoAddNewPage() {
+		if(! onAddNewPage()) {
+			click(By.linkText("add new"));
+		}
+	}
+
+	private boolean onMainPage() {
+		return driver.findElements(By.id("maintable")).size() > 0;
+	}
+
+	private boolean onGroupsPage() {
+		return driver.getCurrentUrl().contains("/group.php") && driver.findElements(By.name("new")).size() > 0;
 	}
 	
-	public void gotoAddNewPage() {
-		click(By.linkText("add new"));
+	private boolean onAddNewPage() {  //keeping as an example
+		if (driver.getCurrentUrl().contains("/edit.php")
+			&& driver.findElements(By.xpath("//input[@value='Enter']")).size() > 0) {
+		return true;
+		} else {
+		return false;
+		}
 	}
 
 }

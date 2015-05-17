@@ -1,6 +1,7 @@
 package com.example.tests;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -10,47 +11,43 @@ import java.util.Random;
 
 import org.testng.annotations.Test;
 
+import com.example.utils.SortedListOf;
+
+import static com.example.fw.ContactHelper.CREATION;
+
 public class AddNewContactTests extends TestBase{
 
   @Test(dataProvider = "randomValidContactGenerator")
   public void testContactCreationWithValidData(ContactData contact) throws Exception {
-    app.getNavigationalHelper().openMainPage();
-    
     //save old state
-    List<ContactData> oldContactList = app.getContactHelper().getContacts();
+	  SortedListOf<ContactData> oldContactList = app.getContactHelper().getContacts();
     
     //actions
-    app.getNavigationalHelper().gotoAddNewPage();
-	app.getContactHelper().fillContactForm(contact);
-    app.getContactHelper().submitContactCreation();
-    app.getContactHelper().returnToHomePage();
+    app.getContactHelper().createContact(contact);
     
     //save new state
-    List<ContactData> newContactList = app.getContactHelper().getContacts();
+    SortedListOf<ContactData> newContactList = app.getContactHelper().getContacts();
     
     //compare states
-    oldContactList.add(contact);
-    Collections.sort(oldContactList);
-    Collections.sort(newContactList);
-    assertEquals(newContactList, oldContactList);
+	assertThat(newContactList, equalTo(oldContactList.withAdded(contact)));
   }
 
   
   @Test(dataProvider = "randomInvalidContactGenerator") //invalid input, new contact should not be created
   public void testContactCreationWithInvalidData(ContactData contact) throws Exception {
-    app.getNavigationalHelper().openMainPage();
+    app.navigateTo().mainPage();
     
-    List<ContactData> oldContactList = app.getContactHelper().getContacts();
+    SortedListOf<ContactData> oldContactList = app.getContactHelper().getContacts();
     
-    app.getNavigationalHelper().gotoAddNewPage();
-	app.getContactHelper().fillContactForm(contact);
-    app.getContactHelper().submitContactCreation();
-    app.getContactHelper().returnToHomePage();
+    app.navigateTo().gotoAddNewPage();
+	app.getContactHelper()
+		.fillContactForm(contact, CREATION);
+	app.getContactHelper().submitContactCreation()
+    	.returnToHomePage();
     
-    List<ContactData> newContactList = app.getContactHelper().getContacts();
     
-    Collections.sort(oldContactList);
-    Collections.sort(newContactList);
-    assertEquals(newContactList, oldContactList);
-  }  
+	SortedListOf<ContactData> newContactList = app.getContactHelper().getContacts();
+    
+	assertThat(newContactList, equalTo(oldContactList));
+  } 
 } 
