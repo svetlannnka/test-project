@@ -33,13 +33,7 @@ public class NavigationHelper extends HelperBase {
 		return driver.getCurrentUrl().contains("/group.php") && driver.findElements(By.name("new")).size() > 0;
 	}
 	
-	private boolean onAddNewPage() {  //keeping as an example
-		if (driver.getCurrentUrl().contains("/edit.php")
-			&& driver.findElements(By.xpath("//input[@value='Enter']")).size() > 0) {
-		return true;
-		} else {
-		return false;
-		}
+	private boolean onAddNewPage() {
+		return driver.getCurrentUrl().contains("/edit.php") && driver.findElements(By.xpath("//input[@value='Enter']")).size() > 0;
 	}
-
 }

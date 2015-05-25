@@ -26,6 +26,16 @@ public class ContactRemovalTests extends TestBase{
 		//compare states
 		assertThat(newContactList, equalTo(oldContactList.without(index)));
 	}
+
+	/*@Test
+	public void deleteSomeContact() {//deleting many contacts
+		for (int i = 1; i<=10; i++) { 
+		app.getNavigationalHelper().openMainPage();
+		app.getContactHelper().selectContactForModification(12);
+		app.getContactHelper().deleteContact();
+		app.getContactHelper().returnToHomePage();
+	}
+	}*/
 	
 }
 
