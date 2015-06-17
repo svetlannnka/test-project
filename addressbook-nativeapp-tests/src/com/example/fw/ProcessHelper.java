@@ -19,5 +19,4 @@ public class ProcessHelper extends HelperBase {
 		process.destroy();
 		
 	}
-
 }
